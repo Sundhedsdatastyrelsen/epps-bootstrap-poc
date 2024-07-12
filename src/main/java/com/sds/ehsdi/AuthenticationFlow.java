@@ -110,15 +110,6 @@ public class AuthenticationFlow {
                 root.appendChild(attributeElement);
             }
 
-            // Permissions
-            // Element permissionsElement = document.createElement("Permissions");
-            // for (String permission : parsedData.getPermissions()) {
-            //     Element permissionElement = document.createElement(permission);
-            //     permissionElement.appendChild(document.createTextNode(permission));
-            //     permissionsElement.appendChild(permissionElement);
-            // }
-            // root.appendChild(permissionsElement);
-
             // TODO: Add the relevant data from soap header to the bootstrap token such as origin country, etc.
 
             // Convert to String
