@@ -5,6 +5,10 @@ Cuurrent implementation takes the provided testfile `ncp-assertion2.xml` and a h
 
 The output file `BST.xml` contain the extracted fields. This output file have to be updated to be similar to bootstraptokens that already can be used in SOSI however the current version should give simplified overview of the data that the token will contain.
 
+## Examples
+
+The examples folder contain two test XMLs from SEB that can be looked at as inspiration. This POC code will write a similar file once final design is determined. The `BST.xml` file contain just the attributes that will eventually go in the final version of the file.
+
 ## Next steps
 
 1. Expand the export method to write real SOSI BST xml files
