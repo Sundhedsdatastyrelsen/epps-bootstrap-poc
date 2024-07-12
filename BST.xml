@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<BootstrapToken>
+    <XSPA_Purpose_Of_Use>
+        <Value>TREATMENT</Value>
+    </XSPA_Purpose_Of_Use>
+    <XSPA_Organization_ID>
+        <Value>20155.1</Value>
+    </XSPA_Organization_ID>
+    <XSPA_Locality>
+        <Value>POC</Value>
+    </XSPA_Locality>
+    <XSPA_Role>
+        <Value>medical doctor</Value>
+    </XSPA_Role>
+    <XSPA_Organization>
+        <Value>eHealth OpenNCP EU Portal</Value>
+    </XSPA_Organization>
+    <Hl7_Permissions>
+        <Value>urn:oasis:names:tc:xspa:1.0:subject:hl7:permission:PRD-006</Value>
+        <Value>urn:oasis:names:tc:xspa:1.0:subject:hl7:permission:PRD-003</Value>
+        <Value>urn:oasis:names:tc:xspa:1.0:subject:hl7:permission:PRD-004</Value>
+        <Value>urn:oasis:names:tc:xspa:1.0:subject:hl7:permission:PRD-005</Value>
+        <Value>urn:oasis:names:tc:xspa:1.0:subject:hl7:permission:PRD-010</Value>
+        <Value>urn:oasis:names:tc:xspa:1.0:subject:hl7:permission:PRD-016</Value>
+        <Value>urn:oasis:names:tc:xspa:1.0:subject:hl7:permission:PPD-032</Value>
+        <Value>urn:oasis:names:tc:xspa:1.0:subject:hl7:permission:PPD-033</Value>
+    </Hl7_Permissions>
+    <XSPA_Subject>
+        <Value>Jack House</Value>
+    </XSPA_Subject>
+    <eHealth_DSI_Healthcare_Facility_Type>
+        <Value>Resident Physician</Value>
+    </eHealth_DSI_Healthcare_Facility_Type>
+</BootstrapToken>

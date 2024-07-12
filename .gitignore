@@ -1,0 +1,62 @@
+# Compiled class file
+*.class
+
+# Log file
+*.log
+
+# BlueJ files
+*.ctxt
+
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+# Package Files #
+*.jar
+*.war
+*.ear
+
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+hs_err_pid*
+
+# Directories #
+target/
+bin/
+out/
+
+# Eclipse #
+.project
+.classpath
+.settings/
+# IntelliJ IDEA #
+.idea/
+*.iml
+*.iws
+
+# NetBeans
+nbproject/private/
+build/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
+# VS Code #
+.vscode/
+
+# Maven #
+.mvn/
+!**/src/main/**/mvn-wrapper.properties
+!**/src/main/**/mvn-wrapper.jar
+!**/src/test/**/mvn-wrapper.properties
+!**/src/test/**/mvn-wrapper.jar
+
+# Gradle #
+.gradle/
+build/
+
+# Others #
+*.DS_Store
+*.class
+*.jar
+*.war
+*.ear
+*.swp
