@@ -8,3 +8,15 @@ The output file `BST.xml` contain the extracted fields. This output file have to
 ## Next steps:
 1. Expand the export method to write real SOSI BST xml files
 2. Add the json the NCP will provide to the service with metadata and add these to the BST
+
+# How to run:
+
+After cloning this repository install dependencies using maven:
+
+`mvn clean install`
+
+Then the output jar will be accessible in the target folder and can be run providing two arguments:
+
+`java -jar AuthenticationFlow.jar <xml-assertion> <soap-header>`
+
+Note that the soap header file is currently not used, but will be added later.
