@@ -124,11 +124,12 @@ public class AuthenticationFlow {
         Element subjectConfirmation = document.createElement("SubjectConfirmation");
         subjectConfirmation.setAttribute("Method", "urn:oasis:names:tc:SAML:2.0:cm:holder-of-key");
 
-        Element subjectConfirmationData = document.createElementNS("http://www.w3.org/2000/09/xmldsig#", "SubjectConfirmationData");
-        subjectConfirmationData.setAttribute("p4:type", "KeyInfoConfirmationDataType");
-        subjectConfirmationData.setAttributeNS("xmlns:p4", "xmlns:p4", "http://www.w3.org/2001/XMLSchema-instance");
+        Element subjectConfirmationData = document.createElementNS(null, "SubjectConfirmationData");
+        subjectConfirmationData.setAttributeNS("http://www.w3.org/2001/XMLSchema-instance", "p4:type", "KeyInfoConfirmationDataType");
+        subjectConfirmationData.setAttributeNS("http://www.w3.org/2000/xmlns/", "xmlns:p4", "http://www.w3.org/2001/XMLSchema-instance");
 
         Element keyInfo = createKeyInfo(document);
+
         subjectConfirmationData.appendChild(keyInfo);
         subjectConfirmation.appendChild(subjectConfirmationData);
         subject.appendChild(subjectConfirmation);
@@ -156,7 +157,7 @@ public class AuthenticationFlow {
         addAttribute(document, attributeStatement, "dk:gov:saml:attribute:CvrNumberIdentifier", "urn:oasis:names:tc:SAML:2.0:attrname-format:basic", "25959701");
         addAttribute(document, attributeStatement, "dk:gov:saml:attribute:RidNumberIdentifier", "urn:oasis:names:tc:SAML:2.0:attrname-format:basic", "11086796");
         
-        
+
         // TODO: Add the attributes from the parsed data to the AttributeStatement
         for (Map.Entry<String, List<String>> entry : dataFromAssertion.getAttributes().entrySet()) {
             String attributeName = sanitizeXMLName(entry.getKey());
@@ -184,7 +185,6 @@ public class AuthenticationFlow {
         }
 
         assertion.appendChild(attributeStatement);
-
 
         // Convert the document to a string
         TransformerFactory transformerFactory = TransformerFactory.newInstance();
