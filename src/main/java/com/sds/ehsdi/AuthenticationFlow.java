@@ -5,6 +5,7 @@ import java.io.StringWriter;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -20,7 +21,7 @@ import org.w3c.dom.NodeList;
 
 public class AuthenticationFlow {
 
-    // Snatched from SEB example XML
+    // Snatched from SEB example XML - TODO: replace with actual data when acquired
     private static final String SIGNATUREVALUECERT = "cfYNh4nL1xaAo31ag1puLvP1l54M1LtvVubpwF2UKe3tVZS27EsIjFpRpDJgR5ng29xWIoTD6KDYq8WbbjQjpYEiTOSJEFC16/onscu6VXTilfbV6ncmyhHBzuzocbF+C5PraHgFKfOdgi0irWwswT8V16i3NuBq5zDNzITMHOaVmYJSJVPdkospPVryeJ7kRCI9xpovL257HSakgzs6fctkISooB3LnwoXOb5mKAqDcrYQHCjh62uNitUYRXEZ94WVyd3AWo2OTFnSxxc32NahJvTOSjNiBTjfXZwnEmgbtbW7cWQaNfqKFYnCi+Z5YMc8D+Y/dD5Cb08Ee/hWaD7034rvxFinLP/AxgBlxb/1pviQpsCQRH1IPxopPMno1yFjN19+s1nkZJmDiEW3+pb+qy0XjY3JtT6rklInVdfg2hPJYWCG/zj4EWF/YfFxqHrOvJdjNE+1MJ9LkXYG612SbpcX/4T5ojENGiyHgi6EWlk7NRkKNJsxjE7yGOY2M";
     private static final String X509CERTIFICATESTRING = "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";
 
@@ -49,7 +50,7 @@ public class AuthenticationFlow {
             String bootstrapToken = createBootstrapToken(dataFromAssertion, soapHeaderContent);
 
             // Write the bootstrap token to the BST.xml file
-            Files.write(new File("BST.xml").toPath(), bootstrapToken.getBytes());
+            Files.write(new File("NCP-BST.xml").toPath(), bootstrapToken.getBytes());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -155,8 +156,34 @@ public class AuthenticationFlow {
         addAttribute(document, attributeStatement, "dk:gov:saml:attribute:CvrNumberIdentifier", "urn:oasis:names:tc:SAML:2.0:attrname-format:basic", "25959701");
         addAttribute(document, attributeStatement, "dk:gov:saml:attribute:RidNumberIdentifier", "urn:oasis:names:tc:SAML:2.0:attrname-format:basic", "11086796");
         
-        // TODO: Add the attributes from the parsed data to the AttributeStatement
         
+        // TODO: Add the attributes from the parsed data to the AttributeStatement
+        for (Map.Entry<String, List<String>> entry : dataFromAssertion.getAttributes().entrySet()) {
+            String attributeName = sanitizeXMLName(entry.getKey());
+            Element attributeElement = document.createElement("Attribute");
+            attributeElement.setAttribute("Name", attributeName);
+            attributeElement.setAttribute("NameFormat", "urn:oasis:names:tc:SAML:2.0:attrname-format:basic");
+            for (String value : entry.getValue()) {
+                Element attributeValue = document.createElement("AttributeValue");
+                attributeValue.appendChild(document.createTextNode(value));
+                attributeElement.appendChild(attributeValue);
+            }
+            attributeStatement.appendChild(attributeElement);
+        }
+
+        // Add permissions as attributes
+        if (!dataFromAssertion.getPermissions().isEmpty()) {
+            Element permissionsAttribute = document.createElement("Attribute");
+            permissionsAttribute.setAttribute("Name", "urn:oasis:names:tc:xspa:1.0:subject:hl7:permission");
+            permissionsAttribute.setAttribute("NameFormat", "urn:oasis:names:tc:SAML:2.0:attrname-format:uri");
+            for (String permission : dataFromAssertion.getPermissions()) {
+                Element attributeValue = document.createElement("AttributeValue");
+                attributeValue.appendChild(document.createTextNode(permission));
+                permissionsAttribute.appendChild(attributeValue);
+            }
+        }
+
+        assertion.appendChild(attributeStatement);
 
 
         // Convert the document to a string
