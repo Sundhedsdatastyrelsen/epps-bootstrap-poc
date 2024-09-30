@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Assertion ID="_c74ef50a-9212-4460-83bb-a3a938ccd976" IssueInstant="2024-08-20T11:23:59Z" Version="2.0" xmlns="urn:oasis:names:tc:SAML:2.0:assertion">
+    <Issuer>https://www.ncpdk.sds.dk</Issuer>
+    <Signature xmlns="http://www.w3.org/2000/09/xmldsig#">
+        <SignedInfo>
+            <CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/>
+            <SignatureMethod Algorithm="http://www.w3.org/2001/04/xmldsig-more#rsa-sha1"/>
+            <Reference URI="#_c74ef50a-9212-4460-83bb-a3a938ccd976">
+                <Transforms>
+                    <Transform/>
+                    <Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/>
+                </Transforms>
+                <DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha1"/>
+                <DigestValue>onLP8pTMBvQpcODQZqEO/ZT2Eo0=</DigestValue>
+            </Reference>
+        </SignedInfo>
+        <SignatureValue>cfYNh4nL1xaAo31ag1puLvP1l54M1LtvVubpwF2UKe3tVZS27EsIjFpRpDJgR5ng29xWIoTD6KDYq8WbbjQjpYEiTOSJEFC16/onscu6VXTilfbV6ncmyhHBzuzocbF+C5PraHgFKfOdgi0irWwswT8V16i3NuBq5zDNzITMHOaVmYJSJVPdkospPVryeJ7kRCI9xpovL257HSakgzs6fctkISooB3LnwoXOb5mKAqDcrYQHCjh62uNitUYRXEZ94WVyd3AWo2OTFnSxxc32NahJvTOSjNiBTjfXZwnEmgbtbW7cWQaNfqKFYnCi+Z5YMc8D+Y/dD5Cb08Ee/hWaD7034rvxFinLP/AxgBlxb/1pviQpsCQRH1IPxopPMno1yFjN19+s1nkZJmDiEW3+pb+qy0XjY3JtT6rklInVdfg2hPJYWCG/zj4EWF/YfFxqHrOvJdjNE+1MJ9LkXYG612SbpcX/4T5ojENGiyHgi6EWlk7NRkKNJsxjE7yGOY2M</SignatureValue>
+        <KeyInfo>
+            <X509Data>
+                <X509Certificate>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</X509Certificate>
+            </X509Data>
+        </KeyInfo>
+    </Signature>
+    <Subject>
+        <NameID Format="urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified">https://data.gov.dk/model/core/eid/professional/uuid/9dcdad2d-29e5-43c7-8abb-98a25d6e2c47</NameID>
+        <SubjectConfirmation Method="urn:oasis:names:tc:SAML:2.0:cm:holder-of-key">
+            <SubjectConfirmationData xmlns:p4="http://www.w3.org/2001/XMLSchema-instance" p4:type="KeyInfoConfirmationDataType" xmlns="">
+                <KeyInfo>
+                    <X509Data>
+                        <X509Certificate>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</X509Certificate>
+                    </X509Data>
+                </KeyInfo>
+            </SubjectConfirmationData>
+        </SubjectConfirmation>
+    </Subject>
+    <Conditions NotOnOrAfter="2024-08-20T23:23:59Z">
+        <AudienceRestriction>
+            <Audience>https://sts.sosi.dk/</Audience>
+        </AudienceRestriction>
+    </Conditions>
+    <AttributeStatement>
+        <Attribute Name="dk:gov:saml:attribute:SpecVer" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:basic">
+            <AttributeValue>DK-SAML-2.0</AttributeValue>
+        </Attribute>
+        <Attribute Name="dk:gov:saml:attribute:AssuranceLevel" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:uri">
+            <AttributeValue>3</AttributeValue>
+        </Attribute>
+        <Attribute Name="urn:oid:2.5.4.10" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:basic">
+            <AttributeValue>GLOBETEAM A/S</AttributeValue>
+        </Attribute>
+        <Attribute Name="dk:gov:saml:attribute:CprNumberIdentifier" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:basic">
+            <AttributeValue>0408801885</AttributeValue>
+        </Attribute>
+        <Attribute Name="dk:gov:saml:attribute:CvrNumberIdentifier" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:basic">
+            <AttributeValue>25959701</AttributeValue>
+        </Attribute>
+        <Attribute Name="dk:gov:saml:attribute:RidNumberIdentifier" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:basic">
+            <AttributeValue>11086796</AttributeValue>
+        </Attribute>
+        <Attribute Name="XSPA_Purpose_Of_Use" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:basic">
+            <AttributeValue>TREATMENT</AttributeValue>
+        </Attribute>
+        <Attribute Name="XSPA_Organization_ID" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:basic">
+            <AttributeValue>20155.1</AttributeValue>
+        </Attribute>
+        <Attribute Name="XSPA_Locality" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:basic">
+            <AttributeValue>POC</AttributeValue>
+        </Attribute>
+        <Attribute Name="XSPA_Role" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:basic">
+            <AttributeValue>medical doctor</AttributeValue>
+        </Attribute>
+        <Attribute Name="XSPA_Organization" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:basic">
+            <AttributeValue>eHealth OpenNCP EU Portal</AttributeValue>
+        </Attribute>
+        <Attribute Name="Hl7_Permissions" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:basic">
+            <AttributeValue>urn:oasis:names:tc:xspa:1.0:subject:hl7:permission:PRD-006</AttributeValue>
+            <AttributeValue>urn:oasis:names:tc:xspa:1.0:subject:hl7:permission:PRD-003</AttributeValue>
+            <AttributeValue>urn:oasis:names:tc:xspa:1.0:subject:hl7:permission:PRD-004</AttributeValue>
+            <AttributeValue>urn:oasis:names:tc:xspa:1.0:subject:hl7:permission:PRD-005</AttributeValue>
+            <AttributeValue>urn:oasis:names:tc:xspa:1.0:subject:hl7:permission:PRD-010</AttributeValue>
+            <AttributeValue>urn:oasis:names:tc:xspa:1.0:subject:hl7:permission:PRD-016</AttributeValue>
+            <AttributeValue>urn:oasis:names:tc:xspa:1.0:subject:hl7:permission:PPD-032</AttributeValue>
+            <AttributeValue>urn:oasis:names:tc:xspa:1.0:subject:hl7:permission:PPD-033</AttributeValue>
+        </Attribute>
+        <Attribute Name="XSPA_Subject" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:basic">
+            <AttributeValue>Jack House</AttributeValue>
+        </Attribute>
+        <Attribute Name="eHealth_DSI_Healthcare_Facility_Type" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:basic">
+            <AttributeValue>Resident Physician</AttributeValue>
+        </Attribute>
+    </AttributeStatement>
+</Assertion>
