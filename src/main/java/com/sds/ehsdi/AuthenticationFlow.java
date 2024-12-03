@@ -6,6 +6,7 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.HashMap;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -63,7 +64,7 @@ public class AuthenticationFlow {
             DocumentBuilder builder = factory.newDocumentBuilder();
             Document document = builder.parse(new java.io.ByteArrayInputStream(xmlAssertion.getBytes("UTF-8")));
             Element rootElement = document.getDocumentElement();
-            
+
             NodeList attributeNodes = rootElement.getElementsByTagName("saml2:Attribute");
             for (int i = 0; i < attributeNodes.getLength(); i++) {
                 Element attributeElement = (Element) attributeNodes.item(i);
@@ -74,126 +75,104 @@ public class AuthenticationFlow {
                     values.add(attributeValues.item(j).getTextContent());
                 }
                 parsedData.addAttribute(attributeName, values);
-            }
-
-            NodeList permissionNodes = rootElement.getElementsByTagName("saml2:Attribute");
-            for (int i = 0; i < permissionNodes.getLength(); i++) {
-                Element attributeElement = (Element) permissionNodes.item(i);
-                if (attributeElement.getAttribute("FriendlyName").equals("Hl7 Permissions")) {
-                    NodeList attributeValues = attributeElement.getElementsByTagName("saml2:AttributeValue");
-                    for (int j = 0; j < attributeValues.getLength(); j++) {
-                        parsedData.addPermission(attributeValues.item(j).getTextContent());
-                    }
-                }
+                //System.out.println("Parsed attribute: " + attributeName + " = " + values); // Debug log
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
+        //System.out.println(parsedData.toString()); // Debug log
         return parsedData;
     }
 
     private static String createBootstrapToken(ParsedData dataFromAssertion, String soapHeaderContent) {
         try {
-        
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder builder = factory.newDocumentBuilder();
-        Document document = builder.newDocument();
-
-        // Root Element
-        Element assertion = document.createElementNS("urn:oasis:names:tc:SAML:2.0:assertion", "Assertion");
-        assertion.setAttribute("ID", "_c74ef50a-9212-4460-83bb-a3a938ccd976"); // TODO: Generate a unique ID, using this generated one for now
-        assertion.setAttribute("IssueInstant", "2024-08-20T11:23:59Z"); // TODO: Generate the current time in the correct format
-        assertion.setAttribute("Version", "2.0");
-        document.appendChild(assertion);
-
-        // Issuer Element
-        Element issuer = document.createElement("Issuer");
-        issuer.appendChild(document.createTextNode("https://www.ncpdk.sds.dk")); // TODO: Exchange with actual issuer when decided what the value is
-        assertion.appendChild(issuer);
-
-        // Signature Element
-        addSignatureElement(document, assertion);
-        
-        // Subject Element
-        Element subject = document.createElement("Subject");
-        Element nameID = document.createElement("NameID");
-        nameID.setAttribute("Format", "urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified");
-        nameID.appendChild(document.createTextNode("https://data.gov.dk/model/core/eid/professional/uuid/9dcdad2d-29e5-43c7-8abb-98a25d6e2c47"));
-        subject.appendChild(nameID);
-
-        Element subjectConfirmation = document.createElement("SubjectConfirmation");
-        subjectConfirmation.setAttribute("Method", "urn:oasis:names:tc:SAML:2.0:cm:holder-of-key");
-
-        Element subjectConfirmationData = document.createElementNS(null, "SubjectConfirmationData");
-        subjectConfirmationData.setAttributeNS("http://www.w3.org/2001/XMLSchema-instance", "p4:type", "KeyInfoConfirmationDataType");
-        subjectConfirmationData.setAttributeNS("http://www.w3.org/2000/xmlns/", "xmlns:p4", "http://www.w3.org/2001/XMLSchema-instance");
-
-        Element keyInfo = createKeyInfo(document);
-
-        subjectConfirmationData.appendChild(keyInfo);
-        subjectConfirmation.appendChild(subjectConfirmationData);
-        subject.appendChild(subjectConfirmation);
-
-        assertion.appendChild(subject);
-
-        // Conditions Element
-        Element conditions = document.createElement("Conditions");
-        conditions.setAttribute("NotOnOrAfter", "2024-08-20T23:23:59Z");
-        Element audienceRestriction = document.createElement("AudienceRestriction");
-        Element audience = document.createElement("Audience");
-        audience.appendChild(document.createTextNode("https://sts.sosi.dk/"));
-        audienceRestriction.appendChild(audience);
-        conditions.appendChild(audienceRestriction);
-        assertion.appendChild(conditions);
-
-         // AttributeStatement Element
-        Element attributeStatement = document.createElement("AttributeStatement");
-        
-        // Adding predefined attributes from SEB example to the AttributeStatement
-        addAttribute(document, attributeStatement, "dk:gov:saml:attribute:SpecVer", "urn:oasis:names:tc:SAML:2.0:attrname-format:basic", "DK-SAML-2.0");
-        addAttribute(document, attributeStatement, "dk:gov:saml:attribute:AssuranceLevel", "urn:oasis:names:tc:SAML:2.0:attrname-format:uri", "3");
-        addAttribute(document, attributeStatement, "urn:oid:2.5.4.10", "urn:oasis:names:tc:SAML:2.0:attrname-format:basic", "GLOBETEAM A/S");
-        addAttribute(document, attributeStatement, "dk:gov:saml:attribute:CprNumberIdentifier", "urn:oasis:names:tc:SAML:2.0:attrname-format:basic", "0408801885");
-        addAttribute(document, attributeStatement, "dk:gov:saml:attribute:CvrNumberIdentifier", "urn:oasis:names:tc:SAML:2.0:attrname-format:basic", "25959701");
-        addAttribute(document, attributeStatement, "dk:gov:saml:attribute:RidNumberIdentifier", "urn:oasis:names:tc:SAML:2.0:attrname-format:basic", "11086796");
-        
-
-        // TODO: Add the attributes from the parsed data to the AttributeStatement
-        for (Map.Entry<String, List<String>> entry : dataFromAssertion.getAttributes().entrySet()) {
-            String attributeName = sanitizeXMLName(entry.getKey());
-            Element attributeElement = document.createElement("Attribute");
-            attributeElement.setAttribute("Name", attributeName);
-            attributeElement.setAttribute("NameFormat", "urn:oasis:names:tc:SAML:2.0:attrname-format:basic");
-            for (String value : entry.getValue()) {
-                Element attributeValue = document.createElement("AttributeValue");
-                attributeValue.appendChild(document.createTextNode(value));
-                attributeElement.appendChild(attributeValue);
+            // Attribute mappings (FriendlyName to Name)
+            Map<String, String> attributeNameMap = new HashMap<>();
+            attributeNameMap.put("XSPA Subject", "urn:oasis:names:tc:xspa:1.0:subject:subject-id");
+            attributeNameMap.put("XSPA Role", "urn:oasis:names:tc:xacml:2.0:subject:role");
+            attributeNameMap.put("Hl7 Permissions", "urn:oasis:names:tc:xspa:1.0:subject:hl7:permission");
+            // Add other mappings as needed...
+    
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            Document document = builder.newDocument();
+    
+            // Root Element
+            Element assertion = document.createElementNS("urn:oasis:names:tc:SAML:2.0:assertion", "Assertion");
+            assertion.setAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
+            assertion.setAttribute("ID", "_c74ef50a-9212-4460-83bb-a3a938ccd976");
+            assertion.setAttribute("IssueInstant", "2024-08-20T11:23:59Z");
+            assertion.setAttribute("Version", "2.0");
+            document.appendChild(assertion);
+    
+            // Add Issuer
+            Element issuer = document.createElement("Issuer");
+            issuer.appendChild(document.createTextNode("https://www.ncpdk.sds.dk"));
+            assertion.appendChild(issuer);
+    
+            // Add Signature
+            addSignatureElement(document, assertion);
+    
+            // Add Subject
+            Element subject = document.createElement("Subject");
+            Element nameID = document.createElement("NameID");
+            nameID.setAttribute("Format", "urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified");
+            nameID.appendChild(document.createTextNode("https://data.gov.dk/model/core/eid/professional/uuid/9dcdad2d-29e5-43c7-8abb-98a25d6e2c47"));
+            subject.appendChild(nameID);
+    
+            Element subjectConfirmation = document.createElement("SubjectConfirmation");
+            subjectConfirmation.setAttribute("Method", "urn:oasis:names:tc:SAML:2.0:cm:holder-of-key");
+    
+            Element subjectConfirmationData = document.createElement("SubjectConfirmationData");
+            subjectConfirmationData.setAttributeNS("http://www.w3.org/2001/XMLSchema-instance", "xsi:type", "KeyInfoConfirmationDataType");
+    
+            Element keyInfo = createKeyInfo(document);
+            subjectConfirmationData.appendChild(keyInfo);
+            subjectConfirmation.appendChild(subjectConfirmationData);
+            subject.appendChild(subjectConfirmation);
+            assertion.appendChild(subject);
+    
+            // Add Conditions
+            Element conditions = document.createElement("Conditions");
+            conditions.setAttribute("NotOnOrAfter", "2024-08-20T23:23:59Z");
+            Element audienceRestriction = document.createElement("AudienceRestriction");
+            Element audience = document.createElement("Audience");
+            audience.appendChild(document.createTextNode("https://sts.sosi.dk/"));
+            audienceRestriction.appendChild(audience);
+            conditions.appendChild(audienceRestriction);
+            assertion.appendChild(conditions);
+    
+            // Add AttributeStatement
+            Element attributeStatement = document.createElement("AttributeStatement");
+    
+            for (Map.Entry<String, List<String>> entry : dataFromAssertion.getAttributes().entrySet()) {
+                String friendlyName = entry.getKey();
+                List<String> values = entry.getValue();
+    
+                String name = attributeNameMap.getOrDefault(friendlyName, sanitizeXMLName(friendlyName));
+                Element attributeElement = document.createElement("Attribute");
+                attributeElement.setAttribute("FriendlyName", friendlyName);
+                attributeElement.setAttribute("Name", name);
+    
+                for (String value : values) {
+                    Element attributeValue = document.createElement("AttributeValue");
+                    attributeValue.appendChild(document.createTextNode(value));
+                    attributeElement.appendChild(attributeValue);
+                }
+    
+                attributeStatement.appendChild(attributeElement);
             }
-            attributeStatement.appendChild(attributeElement);
-        }
-
-        // Add permissions as attributes
-        if (!dataFromAssertion.getPermissions().isEmpty()) {
-            Element permissionsAttribute = document.createElement("Attribute");
-            permissionsAttribute.setAttribute("Name", "urn:oasis:names:tc:xspa:1.0:subject:hl7:permission");
-            permissionsAttribute.setAttribute("NameFormat", "urn:oasis:names:tc:SAML:2.0:attrname-format:uri");
-            for (String permission : dataFromAssertion.getPermissions()) {
-                Element attributeValue = document.createElement("AttributeValue");
-                attributeValue.appendChild(document.createTextNode(permission));
-                permissionsAttribute.appendChild(attributeValue);
-            }
-        }
-
-        assertion.appendChild(attributeStatement);
-
-        // Convert the document to a string
-        TransformerFactory transformerFactory = TransformerFactory.newInstance();
-        Transformer transformer = transformerFactory.newTransformer();
-        transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-        StringWriter writer = new StringWriter();
-        transformer.transform(new DOMSource(document), new StreamResult(writer));
-        return writer.toString();
-        
+    
+            assertion.appendChild(attributeStatement);
+    
+            // Convert to String
+            TransformerFactory transformerFactory = TransformerFactory.newInstance();
+            Transformer transformer = transformerFactory.newTransformer();
+            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+            StringWriter writer = new StringWriter();
+            transformer.transform(new DOMSource(document), new StreamResult(writer));
+            return writer.toString();
+    
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -210,12 +189,12 @@ public class AuthenticationFlow {
         signedInfo.appendChild(canonicalizationMethod);
 
         Element signatureMethod = document.createElement("SignatureMethod");
-        signatureMethod.setAttribute("Algorithm", "http://www.w3.org/2001/04/xmldsig-more#rsa-sha1"); // TODO: Check if this is the correct algorithm, it's probably not, 256?
+        signatureMethod.setAttribute("Algorithm", "http://www.w3.org/2001/04/xmldsig-more#rsa-sha1"); // TODO: replace algorithm
         signedInfo.appendChild(signatureMethod);
-        
+
         Element reference = document.createElement("Reference");
         reference.setAttribute("URI", "#_c74ef50a-9212-4460-83bb-a3a938ccd976"); // TODO: replace with a dynamic value
-        
+
         // Transforms
         Element transforms = document.createElement("Transforms");
         Element transformEnvelopedSignature = document.createElement("Transform");
@@ -228,7 +207,7 @@ public class AuthenticationFlow {
 
         // DigestMethod
         Element digestMethod = document.createElement("DigestMethod");
-        digestMethod.setAttribute("Algorithm", "http://www.w3.org/2001/04/xmlenc#sha1"); // TODO: Check if this is the correct algorithm, it's probably not, 256?
+        digestMethod.setAttribute("Algorithm", "http://www.w3.org/2001/04/xmlenc#sha1"); // TODO: replace algorithm
         reference.appendChild(digestMethod);
 
         // DigestValue
@@ -249,7 +228,7 @@ public class AuthenticationFlow {
         assertion.appendChild(signature);
     }
 
-    private static Element createKeyInfo (Document document) {
+    private static Element createKeyInfo(Document document) {
         // KeyInfo
         Element keyInfo = document.createElement("KeyInfo");
         Element x509Data = document.createElement("X509Data");
@@ -260,17 +239,6 @@ public class AuthenticationFlow {
         return keyInfo;
     }
 
-    private static void addAttribute(Document document, Element parent, String name, String format, String value) {
-        Element attribute = document.createElement("Attribute");
-        attribute.setAttribute("Name", name);
-        attribute.setAttribute("NameFormat", format);
-        Element attributeValue = document.createElement("AttributeValue");
-        attributeValue.appendChild(document.createTextNode(value));
-        attribute.appendChild(attributeValue);
-        parent.appendChild(attribute);
-    }
-
-    
     private static String sanitizeXMLName(String name) {
         // Replace invalid characters with an underscore
         return name.replaceAll("[^a-zA-Z0-9\\-_.:]", "_");

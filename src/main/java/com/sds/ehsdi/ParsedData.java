@@ -31,4 +31,9 @@ public class ParsedData {
         permissions.add(permission);
     }
     
+    // ToString
+    @Override
+    public String toString() {
+        return "ParsedData [attributes=" + attributes + ", permissions=" + permissions + "]";
+    }
 }
