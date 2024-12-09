@@ -4,12 +4,14 @@
     <Signature xmlns="http://www.w3.org/2000/09/xmldsig#">
         <SignedInfo>
             <CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/>
+            <!-- CHG: Bør vi ikke anvende SHA256 her? -->
             <SignatureMethod Algorithm="http://www.w3.org/2001/04/xmldsig-more#rsa-sha1"/>
             <Reference URI="#_c74ef50a-9212-4460-83bb-a3a938ccd976">
                 <Transforms>
                     <Transform/>
                     <Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/>
                 </Transforms>
+                <!-- CHG: Ditto - Bør vi ikke anvende SHA256 her? -->
                 <DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha1"/>
                 <DigestValue>onLP8pTMBvQpcODQZqEO/ZT2Eo0=</DigestValue>
             </Reference>
@@ -22,6 +24,7 @@
         </KeyInfo>
     </Signature>
     <Subject>
+        <!-- CHG: Værdien af NameID skal videreføres fra TRC fra NCP B og bør i eksemplet her ikke sættes til en 'dansk' værdi -->
         <NameID Format="urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified">https://data.gov.dk/model/core/eid/professional/uuid/9dcdad2d-29e5-43c7-8abb-98a25d6e2c47</NameID>
         <SubjectConfirmation Method="urn:oasis:names:tc:SAML:2.0:cm:holder-of-key">
             <SubjectConfirmationData xsi:type="KeyInfoConfirmationDataType">
@@ -33,28 +36,30 @@
             </SubjectConfirmationData>
         </SubjectConfirmation>
     </Subject>
+    <!-- CHG: Detalje: NotOnOrAfter bør ligge efter IssueInstant i Assertion elementet -->
     <Conditions NotOnOrAfter="2024-08-20T23:23:59Z">
         <AudienceRestriction>
             <Audience>https://sts.sosi.dk/</Audience>
         </AudienceRestriction>
     </Conditions>
     <AttributeStatement>
-        <Attribute FriendlyName="XSPA Purpose Of Use" Name="XSPA_Purpose_Of_Use">
+        <Attribute FriendlyName="XSPA Purpose of Use" Name="urn:oasis:names:tc:xspa:1.0:subject:purposeofuse">
             <AttributeValue>TREATMENT</AttributeValue>
         </Attribute>
-        <Attribute FriendlyName="XSPA Organization ID" Name="XSPA_Organization_ID">
+        <Attribute FriendlyName="XSPA Organization Id" Name="urn:oasis:names:tc:xspa:1.0:subject:organization-id">
             <AttributeValue>20155.1</AttributeValue>
         </Attribute>
-        <Attribute FriendlyName="XSPA Locality" Name="XSPA_Locality">
+        <Attribute FriendlyName="XSPA Locality" Name="urn:oasis:names:tc:xspa:1.0:environment:locality">
             <AttributeValue>POC</AttributeValue>
         </Attribute>
         <Attribute FriendlyName="XSPA Role" Name="urn:oasis:names:tc:xacml:2.0:subject:role">
-            <AttributeValue>medical doctor</AttributeValue>
+            <AttributeValue>Medical Doctors</AttributeValue>
         </Attribute>
-        <Attribute FriendlyName="XSPA Organization" Name="XSPA_Organization">
+        <Attribute FriendlyName="XSPA Organization" Name="urn:oasis:names:tc:xspa:1.0:subject:organization">
+            <!-- CHG: Skal vi ikke sætte værdien til en udenlandsk organisations navn? Måske noget der passer til de andre test-værdier? -->
             <AttributeValue>eHealth OpenNCP EU Portal</AttributeValue>
         </Attribute>
-        <Attribute FriendlyName="Hl7 Permissions" Name="urn:oasis:names:tc:xspa:1.0:subject:hl7:permission">
+        <Attribute FriendlyName="XSPA permissions" Name="urn:oasis:names:tc:xspa:1.0:subject:hl7:permission">
             <AttributeValue>urn:oasis:names:tc:xspa:1.0:subject:hl7:permission:PRD-006</AttributeValue>
             <AttributeValue>urn:oasis:names:tc:xspa:1.0:subject:hl7:permission:PRD-003</AttributeValue>
             <AttributeValue>urn:oasis:names:tc:xspa:1.0:subject:hl7:permission:PRD-004</AttributeValue>
@@ -67,8 +72,20 @@
         <Attribute FriendlyName="XSPA Subject" Name="urn:oasis:names:tc:xspa:1.0:subject:subject-id">
             <AttributeValue>Jack House</AttributeValue>
         </Attribute>
-        <Attribute FriendlyName="eHealth DSI Healthcare Facility Type" Name="eHealth_DSI_Healthcare_Facility_Type">
+        <Attribute FriendlyName="EHDSI Healthcare Facility Type" Name="urn:ehdsi:names:subject:healthcare-facility-type">
             <AttributeValue>Resident Physician</AttributeValue>
         </Attribute>
+
+        <!--
+        CHG: Følgende attributter er påkrævet, men mangler:
+
+        XUA Patient Id (urn:oasis:names:tc:xacml:2.0:resource:resource-id)
+        NSIS AssuranceLevel (https://data.gov.dk/concept/core/nsis/loa) - Jeg antager at vi stadig går efter at NCP'en bliver NSIS anmeldt :-) Ellers skal LoA angives som NIST AssuranceLevel (dk:gov:saml:attribute:AssuranceLevel)
+        IDWS XUA SpecVersion (urn:dk:healthcare:saml:SpecVersion)
+        IDWS XUA IssuancePolicy (urn:dk:healthcare:saml:IssuancePolicy)
+        EHDSI Country of Treatment (urn:dk:healthcare:saml:CountryOfTreatment)
+
+        -->
+
     </AttributeStatement>
 </Assertion>
