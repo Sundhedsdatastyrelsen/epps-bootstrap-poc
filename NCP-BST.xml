@@ -24,7 +24,7 @@
         </KeyInfo>
     </Signature>
     <Subject>
-        <!-- CHG: Værdien af NameID skal videreføres fra TRC fra NCP B og bør i eksemplet her ikke sættes til en 'dansk' værdi -->
+        <!-- CHG: Værdien af NameID skal videreføres fra HP assertion fra NCP B og bør i eksemplet her ikke sættes til en 'dansk' værdi -->
         <NameID Format="urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified">https://data.gov.dk/model/core/eid/professional/uuid/9dcdad2d-29e5-43c7-8abb-98a25d6e2c47</NameID>
         <SubjectConfirmation Method="urn:oasis:names:tc:SAML:2.0:cm:holder-of-key">
             <SubjectConfirmationData xsi:type="KeyInfoConfirmationDataType">
@@ -44,6 +44,7 @@
     </Conditions>
     <AttributeStatement>
         <Attribute FriendlyName="XSPA Purpose of Use" Name="urn:oasis:names:tc:xspa:1.0:subject:purposeofuse">
+            <!-- CHG: Værdien skal angives som XML element ikke som streng, fx <PurposeOfUse xmlns=”urn:hl7-org:v3” xsi:type=”CE” code=”TREATMENT” codeSystem=”urn:oasis:names:tc:xspa:1.0”/> -->
             <AttributeValue>TREATMENT</AttributeValue>
         </Attribute>
         <Attribute FriendlyName="XSPA Organization Id" Name="urn:oasis:names:tc:xspa:1.0:subject:organization-id">
@@ -53,6 +54,7 @@
             <AttributeValue>POC</AttributeValue>
         </Attribute>
         <Attribute FriendlyName="XSPA Role" Name="urn:oasis:names:tc:xacml:2.0:subject:role">
+            <!-- CHG: Værdien skal ligeledes angives som XML element ikke som streng, fx <Role xmlns="urn:hl7-org:v3" xsi:type=”CE” code="2221" codeSystem="2.16.840.1.113883.2.9.6.2.7" codeSystemName="ISCO" displayName="Nursing professionals"/> -->
             <AttributeValue>Medical Doctors</AttributeValue>
         </Attribute>
         <Attribute FriendlyName="XSPA Organization" Name="urn:oasis:names:tc:xspa:1.0:subject:organization">
