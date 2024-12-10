@@ -1,39 +1,53 @@
 package com.sds.ehsdi;
 
-import java.util.Map;
-import java.util.ArrayList;
-import java.util.HashMap;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import java.util.List;
 
+@Data
+@NoArgsConstructor
 public class ParsedData {
 
-    private Map<String, List<String>> attributes; 
-    private List<String> permissions; 
+    private String id;                              // ID attribute of the Assertion element
+    private String issueInstant;                    // IssueInstant attribute
+    private String version;                         // Version attribute
+    private String issuer;                          // Issuer value
+    private Signature signature;                    // Nested Signature structure
+    private Subject subject;                        // Nested Subject structure
+    private Conditions conditions;                  // Nested Conditions structure
+    private List<Attribute> attributes;             // List of Attributes from AttributeStatement
+    private List<String> permissions;               // List of permission AttributeValues
 
-    public ParsedData() {
-        this.attributes = new HashMap<>();
-        this.permissions = new ArrayList<>();
+    @Data
+    @NoArgsConstructor
+    public static class Signature {
+        private String signatureMethodAlgorithm;    // SignatureMethod Algorithm
+        private String digestMethodAlgorithm;       // DigestMethod Algorithm
+        private String digestValue;                 // DigestValue
+        private String signatureValue;              // SignatureValue
+        private String certificate;                 // X509Certificate
     }
 
-    public List<String> getPermissions() {
-        return permissions;
+    @Data
+    @NoArgsConstructor
+    public static class Subject {
+        private String nameIdFormat;                // NameID Format attribute
+        private String nameIdValue;                 // NameID value
+        private String confirmationMethod;          // SubjectConfirmation Method
     }
 
-    public Map<String, List<String>> getAttributes() {
-        return attributes;
-    }
-    
-    public void addAttribute(String name, List<String> values) {
-        attributes.put(name, values);
+    @Data
+    @NoArgsConstructor
+    public static class Conditions {
+        private String notBefore;                   // NotBefore attribute
+        private String notOnOrAfter;                // NotOnOrAfter attribute
     }
 
-    public void addPermission(String permission) {
-        permissions.add(permission);
-    }
-    
-    // ToString
-    @Override
-    public String toString() {
-        return "ParsedData [attributes=" + attributes + ", permissions=" + permissions + "]";
+    @Data
+    @NoArgsConstructor
+    public static class Attribute {
+        private String friendlyName;                // FriendlyName attribute
+        private String name;                        // Name attribute
+        private List<String> values;                // List of AttributeValue elements
     }
 }
