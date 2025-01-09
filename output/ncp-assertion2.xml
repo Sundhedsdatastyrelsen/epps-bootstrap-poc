@@ -5,8 +5,8 @@
       <Issuer>urn:idp:EU:countryB</Issuer>
       <Signature xmlns="http://www.w3.org/2000/09/xmldsig#">
             <SignedInfo>
-                  <SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha256" />
-                  <DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+                  <SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1" />
+                  <DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
                   <DigestValue>N5rvkdqlZ6Mtyal90hxhiPveBGw=</DigestValue>
             </SignedInfo>
             <SignatureValue>
@@ -48,11 +48,15 @@
                   <AttributeValue>Jack House</AttributeValue>
             </Attribute>
             <Attribute FriendlyName="XSPA Role" Name="urn:oasis:names:tc:xacml:2.0:subject:role">
-                  <AttributeValue>medical doctor</AttributeValue>
+                  <AttributeValue>
+                        <Role code="2221" codeSystem="2.16.840.1.113883.2.9.6.2.7"
+                              codeSystemName="ISCO" displayName="Nursing professionals"
+                              xsi:type="CE" xmlns="urn:hl7-org:v3" />
+                  </AttributeValue>
             </Attribute>
             <Attribute FriendlyName="XSPA Organization"
                   Name="urn:oasis:names:tc:xspa:1.0:subject:organization">
-                  <AttributeValue>Jack House Hospital</AttributeValue>
+                  <AttributeValue>eHealth OpenNCP EU Portal</AttributeValue>
             </Attribute>
             <Attribute FriendlyName="XSPA Organization ID"
                   Name="urn:oasis:names:tc:xspa:1.0:subject:organization-id">

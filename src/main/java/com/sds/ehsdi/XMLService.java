@@ -113,12 +113,24 @@ public class XMLService {
                 attributeElement.setAttribute("Name", attribute.getName());
                 attributeStatement.appendChild(attributeElement);
             
+                // TODO: Hardcoded mapping for specific attributes, replace with actual values
                 if ("urn:oasis:names:tc:xspa:1.0:subject:purposeofuse".equals(attribute.getName())) {
                     Element purposeOfUse = document.createElementNS("urn:hl7-org:v3", "PurposeOfUse");
                     purposeOfUse.setAttribute("xsi:type", "CE");
                     purposeOfUse.setAttribute("code", "TREATMENT");
                     purposeOfUse.setAttribute("codeSystem", "urn:oasis:names:tc:xspa:1.0");
                     attributeElement.appendChild(purposeOfUse);
+                } else if ("urn:oasis:names:tc:xacml:2.0:subject:role".equals(attribute.getName())) {
+                    Element attributeValue = document.createElement("AttributeValue");
+                    attributeElement.appendChild(attributeValue);
+            
+                    Element roleElement = document.createElementNS("urn:hl7-org:v3", "Role");
+                    roleElement.setAttribute("xsi:type", "CE");
+                    roleElement.setAttribute("code", "2221");
+                    roleElement.setAttribute("codeSystem", "2.16.840.1.113883.2.9.6.2.7");
+                    roleElement.setAttribute("codeSystemName", "ISCO");
+                    roleElement.setAttribute("displayName", "Nursing professionals");
+                    attributeValue.appendChild(roleElement);
                 } else {
                     for (String value : attribute.getValues()) {
                         Element attributeValue = document.createElement("AttributeValue");

@@ -58,7 +58,7 @@ public class Mapper {
             if ("urn:oasis:names:tc:xspa:1.0:subject:purposeofuse".equals(parsedAttribute.getName())) {
                 // Special mapping for PurposeOfUse
                 attribute.setValues(List.of(
-                    "<PurposeOfUse xmlns=\"urn:hl7-org:v3\" xsi:type=\"CE\" code=\"TREATMENT\" codeSystem=\"urn:oasis:names:tc:xspa:1.0\"/>"
+                    "<PurposeOfUse xmlns=\"urn:hl7-org:v3\" xsi:type=\"CE\" code=\"TREATMENT\" codeSystem=\"urn:oasis:names:tc:xspa:1.0\"/>" // TODO: hardcoded for now, replace with actual value
                 ));
             } else {
                 attribute.setValues(parsedAttribute.getValues());
