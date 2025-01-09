@@ -61,9 +61,13 @@
                   Name="urn:ehdsi:names:subject:healthcare-facility-type">
                   <AttributeValue>Resident Physician</AttributeValue>
             </Attribute>
+
+            
+
+
             <Attribute FriendlyName="XSPA Purpose Of Use"
                   Name="urn:oasis:names:tc:xspa:1.0:subject:purposeofuse">
-                  <AttributeValue>TREATMENT</AttributeValue>
+                 <PurposeOfUse xmlns=”urn:hl7-org:v3” xsi:type=”CE” code=”TREATMENT” codeSystem=”urn:oasis:names:tc:xspa:1.0”/> 
             </Attribute>
             <Attribute FriendlyName="XSPA Locality"
                   Name="urn:oasis:names:tc:xspa:1.0:environment:locality">

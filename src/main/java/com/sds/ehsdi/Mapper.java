@@ -54,7 +54,15 @@ public class Mapper {
             SOSIToken.Attribute attribute = new SOSIToken.Attribute();
             attribute.setFriendlyName(parsedAttribute.getFriendlyName());
             attribute.setName(parsedAttribute.getName());
-            attribute.setValues(parsedAttribute.getValues());
+        
+            if ("urn:oasis:names:tc:xspa:1.0:subject:purposeofuse".equals(parsedAttribute.getName())) {
+                // Special mapping for PurposeOfUse
+                attribute.setValues(List.of(
+                    "<PurposeOfUse xmlns=\"urn:hl7-org:v3\" xsi:type=\"CE\" code=\"TREATMENT\" codeSystem=\"urn:oasis:names:tc:xspa:1.0\"/>"
+                ));
+            } else {
+                attribute.setValues(parsedAttribute.getValues());
+            }
             attributes.add(attribute);
         }
         sosiToken.setAttributes(attributes);

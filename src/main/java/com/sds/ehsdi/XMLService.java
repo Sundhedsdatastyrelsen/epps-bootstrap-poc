@@ -19,14 +19,15 @@ public class XMLService {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
         Document document = builder.newDocument();
-
-        // Create root element
+    
+        // Create root element and declare namespaces
         Element assertion = document.createElementNS("urn:oasis:names:tc:SAML:2.0:assertion", "Assertion");
+        assertion.setAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance"); // Declare xsi namespace
         assertion.setAttribute("ID", sosiToken.getId());
         assertion.setAttribute("IssueInstant", sosiToken.getIssueInstant());
         assertion.setAttribute("Version", sosiToken.getVersion());
         document.appendChild(assertion);
-
+    
         // Add Issuer
         Element issuer = document.createElement("Issuer");
         issuer.setTextContent(sosiToken.getIssuer());
@@ -111,11 +112,19 @@ public class XMLService {
                 attributeElement.setAttribute("FriendlyName", attribute.getFriendlyName());
                 attributeElement.setAttribute("Name", attribute.getName());
                 attributeStatement.appendChild(attributeElement);
-
-                for (String value : attribute.getValues()) {
-                    Element attributeValue = document.createElement("AttributeValue");
-                    attributeValue.setTextContent(value);
-                    attributeElement.appendChild(attributeValue);
+            
+                if ("urn:oasis:names:tc:xspa:1.0:subject:purposeofuse".equals(attribute.getName())) {
+                    Element purposeOfUse = document.createElementNS("urn:hl7-org:v3", "PurposeOfUse");
+                    purposeOfUse.setAttribute("xsi:type", "CE");
+                    purposeOfUse.setAttribute("code", "TREATMENT");
+                    purposeOfUse.setAttribute("codeSystem", "urn:oasis:names:tc:xspa:1.0");
+                    attributeElement.appendChild(purposeOfUse);
+                } else {
+                    for (String value : attribute.getValues()) {
+                        Element attributeValue = document.createElement("AttributeValue");
+                        attributeValue.setTextContent(value);
+                        attributeElement.appendChild(attributeValue);
+                    }
                 }
             }
         }
