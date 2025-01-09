@@ -19,7 +19,11 @@ public class XmlProcessor {
         File outputDir = new File(args[1]);
         
         if (!outputDir.exists()) {
-            outputDir.mkdirs();
+            boolean created = outputDir.mkdirs(); // Try creating the directory
+            if (!created) {
+                System.err.println("Failed to create output directory: " + outputDir.getAbsolutePath());
+                return;
+            }
         }
 
         ParsedDataParser parser = new ParsedDataParser();

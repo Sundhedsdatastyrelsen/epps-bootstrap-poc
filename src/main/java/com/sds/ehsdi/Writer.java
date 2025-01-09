@@ -33,8 +33,8 @@ public class Writer {
     public void writeXml(String fileName, String xml) throws IOException {
         File outputFile = new File(outputDirectory, fileName);
         try (FileOutputStream outputStream = new FileOutputStream(outputFile)) {
-            outputStream.write(xml.getBytes());
+            outputStream.write(xml.getBytes()); // Writes the XML string to the file
+            System.out.println("Written XML to: " + outputFile.getAbsolutePath());
         }
-        System.out.println("Written XML to: " + outputFile.getAbsolutePath());
     }
 }

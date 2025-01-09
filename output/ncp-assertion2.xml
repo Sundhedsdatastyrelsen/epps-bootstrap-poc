@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<Assertion ID="_83706162-b7d1-4501-bbbc-87af68a63a5d" IssueInstant="2018-01-05T14:35:35.800Z"
+<Assertion xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      ID="_83706162-b7d1-4501-bbbc-87af68a63a5d" IssueInstant="2018-01-05T14:35:35.800Z"
       Version="2.0" xmlns="urn:oasis:names:tc:SAML:2.0:assertion">
       <Issuer>urn:idp:EU:countryB</Issuer>
       <Signature xmlns="http://www.w3.org/2000/09/xmldsig#">
             <SignedInfo>
-                  <SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1" />
-                  <DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+                  <SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha256" />
+                  <DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
                   <DigestValue>N5rvkdqlZ6Mtyal90hxhiPveBGw=</DigestValue>
             </SignedInfo>
             <SignatureValue>
@@ -51,7 +52,7 @@
             </Attribute>
             <Attribute FriendlyName="XSPA Organization"
                   Name="urn:oasis:names:tc:xspa:1.0:subject:organization">
-                  <AttributeValue>eHealth OpenNCP EU Portal</AttributeValue>
+                  <AttributeValue>Jack House Hospital</AttributeValue>
             </Attribute>
             <Attribute FriendlyName="XSPA Organization ID"
                   Name="urn:oasis:names:tc:xspa:1.0:subject:organization-id">
@@ -61,13 +62,10 @@
                   Name="urn:ehdsi:names:subject:healthcare-facility-type">
                   <AttributeValue>Resident Physician</AttributeValue>
             </Attribute>
-
-            
-
-
             <Attribute FriendlyName="XSPA Purpose Of Use"
                   Name="urn:oasis:names:tc:xspa:1.0:subject:purposeofuse">
-                 <PurposeOfUse xmlns=”urn:hl7-org:v3” xsi:type=”CE” code=”TREATMENT” codeSystem=”urn:oasis:names:tc:xspa:1.0”/> 
+                  <PurposeOfUse code="TREATMENT" codeSystem="urn:oasis:names:tc:xspa:1.0"
+                        xsi:type="CE" xmlns="urn:hl7-org:v3" />
             </Attribute>
             <Attribute FriendlyName="XSPA Locality"
                   Name="urn:oasis:names:tc:xspa:1.0:environment:locality">
