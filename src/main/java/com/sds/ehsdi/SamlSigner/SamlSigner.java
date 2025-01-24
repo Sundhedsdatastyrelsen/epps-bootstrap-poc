@@ -33,6 +33,8 @@ import java.util.List;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 public class SamlSigner {
   public static void main(String[] args) throws Exception {
@@ -66,6 +68,12 @@ public class SamlSigner {
       Document doc;
       try (FileInputStream fis = new FileInputStream(inputXmlPath)) {
         doc = db.parse(fis);
+      }
+
+      NodeList signatureNodes = doc.getElementsByTagNameNS(XMLSignature.XMLNS, "Signature");
+      while (signatureNodes.getLength() > 0) {
+        Node signatureNode = signatureNodes.item(0);
+        signatureNode.getParentNode().removeChild(signatureNode);
       }
 
       Element assertionElement = (Element) doc.getDocumentElement();
