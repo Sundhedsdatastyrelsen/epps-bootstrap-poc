@@ -7,7 +7,6 @@ import java.util.HashMap;
 
 // Entry point for the application
 // Calls the SoSiTokenMock class to generate a mock token
-// 
 public class XmlProcessor {
     public static void main(String[] args) {
         
