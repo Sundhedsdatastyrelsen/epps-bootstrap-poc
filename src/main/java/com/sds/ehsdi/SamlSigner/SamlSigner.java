@@ -37,7 +37,7 @@ import org.w3c.dom.Element;
 public class SamlSigner {
   public static void main(String[] args) throws Exception {
     try {
-      if (args.length != 2) {
+      if (args.length != 3) {
         System.out.println("Usage: java SAMLSignerExample <input-xml-file> <output-xml-file> <keystore-password>");
         System.exit(1);
       }
