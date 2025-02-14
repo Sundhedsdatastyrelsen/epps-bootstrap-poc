@@ -79,13 +79,15 @@ public class SamlSigner {
       Element assertionElement = (Element) doc.getDocumentElement();
       assertionElement.setIdAttribute("ID", true);
 
+      Element subject = (Element) assertionElement.getElementsByTagNameNS("urn:oasis:names:tc:SAML:2.0:assertion", "Subject").item(0);
+
       XMLSignatureFactory fac = XMLSignatureFactory.getInstance("DOM");
-      
+
       Transform envelopedTransform = fac.newTransform(Transform.ENVELOPED, (TransformParameterSpec) null);
 
       Transform excC14nTransform = fac.newTransform("http://www.w3.org/2001/10/xml-exc-c14n#",
           (TransformParameterSpec) null);
-      
+
       String assertionId = assertionElement.getAttribute("ID");
 
       Reference ref = fac.newReference(
@@ -105,8 +107,8 @@ public class SamlSigner {
       X509Data x509Data = kif.newX509Data(Collections.singletonList(cert));
       KeyInfo keyInfo = kif.newKeyInfo(Collections.singletonList(x509Data));
 
-      DOMSignContext dsc = new DOMSignContext(privateKey, assertionElement);
-      
+      DOMSignContext dsc = new DOMSignContext(privateKey, assertionElement, subject);
+
       XMLSignature signature = fac.newXMLSignature(si, keyInfo);
 
       signature.sign(dsc);
