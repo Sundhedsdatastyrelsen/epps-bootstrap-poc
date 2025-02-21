@@ -26,7 +26,8 @@
         </KeyInfo>
     </Signature>
     <Subject>
-        <NameID Format="urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified">17486903-5ed0-4842-82e7-1f85cda996de</NameID>
+        <NameID Format="urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified">17486903-5ed0-4842-82e7-1f85cda996de
+        </NameID>
         <SubjectConfirmation Method="urn:oasis:names:tc:SAML:2.0:cm:holder-of-key">
             <SubjectConfirmationData xsi:type="KeyInfoConfirmationDataType">
                 <KeyInfo xmlns="http://www.w3.org/2000/09/xmldsig#">
@@ -66,8 +67,10 @@
         </Attribute>
         <Attribute FriendlyName="XSPA Purpose Of Use"
                    Name="urn:oasis:names:tc:xspa:1.0:subject:purposeofuse">
-            <PurposeOfUse xmlns="urn:hl7-org:v3" code="TREATMENT" codeSystem="urn:oasis:names:tc:xspa:1.0"
-                          xsi:type="CE"/>
+            <AttributeValue>
+                <PurposeOfUse xmlns="urn:hl7-org:v3" code="TREATMENT" codeSystem="urn:oasis:names:tc:xspa:1.0"
+                              xsi:type="CE"/>
+            </AttributeValue>
         </Attribute>
         <Attribute FriendlyName="XSPA Locality"
                    Name="urn:oasis:names:tc:xspa:1.0:environment:locality">
